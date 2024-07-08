@@ -13,10 +13,7 @@ namespace BLOGSOCIALUDLA.Views
         public PostFica()
         {
             InitializeComponent();
-            BindingContext = new PostFicaViewModel();
-             
+            BindingContext = new PostFicaViewModel(App.BlogService);
         }
-
-        
     }
 }

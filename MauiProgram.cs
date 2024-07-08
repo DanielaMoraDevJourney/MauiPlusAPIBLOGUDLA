@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BLOGSOCIALUDLA.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Hosting;
 
 namespace BLOGSOCIALUDLA
 {
@@ -18,13 +22,17 @@ namespace BLOGSOCIALUDLA
                     fonts.AddFont("Poppins-Medium.ttf", "PoppinsMedium");
                     fonts.AddFont("Poppins-Regular.ttf", "PoppinsRegular");
                     fonts.AddFont("Poppins-SemiBold.ttf", "PoppinsSemiBold");
-
-
                 });
 
-#if DEBUG
-    		builder.Logging.AddDebug();
-#endif
+            builder.Services.AddHttpClient<BlogService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7036");
+            });
+
+            builder.Services.AddHttpClient<CommentService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7036");
+            });
 
             return builder.Build();
         }

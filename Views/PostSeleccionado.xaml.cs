@@ -1,22 +1,21 @@
 using BLOGSOCIALUDLA.Models;
 using BLOGSOCIALUDLA.ViewModels;
-using System.Collections.ObjectModel;
+using Microsoft.Maui.Controls;
 
 namespace BLOGSOCIALUDLA.Views
 {
     public partial class PostSeleccionado : ContentPage
     {
-        private Post _post;
-
-        public ObservableCollection<Comentario> Comentarios { get; set; }
-
-        public PostSeleccionado(Post post)
+        public PostSeleccionado(BlogFicaDto postFica)
         {
             InitializeComponent();
-            BindingContext = new PostSeleccionadoViewModel(post);
+            BindingContext = new PostSeleccionadoViewModel(postFica, App.BlogService, App.CommentService);
+        }
 
-             }
-
-       
+        public PostSeleccionado(BlogNodoDto postNodo)
+        {
+            InitializeComponent();
+            BindingContext = new PostSeleccionadoViewModel(postNodo, App.BlogService, App.CommentService);
+        }
     }
 }

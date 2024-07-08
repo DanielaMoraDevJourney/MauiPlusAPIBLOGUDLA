@@ -1,4 +1,3 @@
-// PostNodo.xaml.cs
 using Microsoft.Maui.Controls;
 using BLOGSOCIALUDLA.Models;
 using System.Collections.ObjectModel;
@@ -8,12 +7,11 @@ using BLOGSOCIALUDLA.ViewModels;
 namespace BLOGSOCIALUDLA.Views
 {
     public partial class PostNodo : ContentPage
-    { 
+    {
         public PostNodo()
         {
             InitializeComponent();
-            BindingContext = new PostNodoViewModel();
-          
+            BindingContext = new PostNodoViewModel(App.BlogService);
         }
-        }
+    }
 }

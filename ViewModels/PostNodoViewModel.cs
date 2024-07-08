@@ -1,13 +1,9 @@
-﻿using BLOGSOCIALUDLA.Data;
-using BLOGSOCIALUDLA.Models;
+﻿using BLOGSOCIALUDLA.Models;
+using BLOGSOCIALUDLA.Services;
 using BLOGSOCIALUDLA.Views;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -15,13 +11,16 @@ namespace BLOGSOCIALUDLA.ViewModels
 {
     public class PostNodoViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public ObservableCollection<Post> Posts { get; set; }
+        private readonly BlogService _blogService;
+        public ObservableCollection<BlogNodoDto> Posts { get; set; }
         public ICommand AddPostCommand { get; }
         public ICommand PostSelectedCommand { get; }
         public ICommand BackCommand { get; }
-        private Post _selectedPost;
-        public Post SelectedPost
+        private BlogNodoDto _selectedPost;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public BlogNodoDto SelectedPost
         {
             get => _selectedPost;
             set
@@ -35,28 +34,38 @@ namespace BLOGSOCIALUDLA.ViewModels
             }
         }
 
-        public PostNodoViewModel()
+        public PostNodoViewModel(BlogService blogService)
         {
-            Posts = new ObservableCollection<Post>(DataPostNodo.PostsNodo);
+            _blogService = blogService;
+            Posts = new ObservableCollection<BlogNodoDto>();
             AddPostCommand = new Command(async () => await OnAddPost());
-            PostSelectedCommand = new Command<Post>(async (post) => await OnPostSelected(post));
+            PostSelectedCommand = new Command<BlogNodoDto>(async (post) => await OnPostSelected(post));
             BackCommand = new Command(async () => await OnBack());
+            LoadPosts();
         }
+
+        private async Task LoadPosts()
+        {
+            var posts = await _blogService.GetBlogNodoAsync();
+            foreach (var post in posts)
+            {
+                Posts.Add(post);
+            }
+        }
+
         private async Task OnAddPost()
         {
-            //funcionamiento del picker para poder elefir le post
-            var nuevaPage = new AddPostPage();
-            nuevaPage.PostAgregado += NuevaPage_PostAgregado;
+            var nuevaPage = new AddPostPage(_blogService);
+            nuevaPage.PostAgregadoNodo += NuevaPage_PostAgregado;
             await Application.Current.MainPage.Navigation.PushAsync(nuevaPage);
         }
 
-        private void NuevaPage_PostAgregado(object sender, Post e)
+        private void NuevaPage_PostAgregado(object sender, BlogNodoDto e)
         {
-            DataPostNodo.AgregarPostNodo(e);
             Posts.Add(e);
         }
 
-        private async Task OnPostSelected(Post selectedPost)
+        private async Task OnPostSelected(BlogNodoDto selectedPost)
         {
             if (selectedPost != null)
             {
@@ -68,15 +77,11 @@ namespace BLOGSOCIALUDLA.ViewModels
         {
             await Application.Current.MainPage.Navigation.PopAsync();
         }
+
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
-
-
-
-
     }
+
 }
