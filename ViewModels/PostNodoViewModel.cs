@@ -55,7 +55,7 @@ namespace BLOGSOCIALUDLA.ViewModels
 
         private async Task OnAddPost()
         {
-            var nuevaPage = new AddPostPage(_blogService);
+            var nuevaPage = new AddPostPage(_blogService, false);
             nuevaPage.PostAgregadoNodo += NuevaPage_PostAgregado;
             await Application.Current.MainPage.Navigation.PushAsync(nuevaPage);
         }
@@ -83,5 +83,4 @@ namespace BLOGSOCIALUDLA.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
 }

@@ -1,8 +1,7 @@
 using Microsoft.Maui.Controls;
 using BLOGSOCIALUDLA.Models;
-using System.Collections.ObjectModel;
-using BLOGSOCIALUDLA.Data;
 using BLOGSOCIALUDLA.ViewModels;
+using BLOGSOCIALUDLA.Services;
 
 namespace BLOGSOCIALUDLA.Views
 {

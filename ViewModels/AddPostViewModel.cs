@@ -1,28 +1,48 @@
-﻿using BLOGSOCIALUDLA.Services;
-using System.Threading.Tasks;
+﻿using BLOGSOCIALUDLA.Models;
+using BLOGSOCIALUDLA.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using BLOGSOCIALUDLA.Models;
+using System.Threading.Tasks;
 
 namespace BLOGSOCIALUDLA.ViewModels
 {
     public class AddPostViewModel : INotifyPropertyChanged
     {
         private readonly BlogService _blogService;
-        public BlogFicaDto NuevoPost { get; set; }
+        private readonly bool _isFica;
 
-        public AddPostViewModel(BlogService blogService)
+        public AddPostViewModel(BlogService blogService, bool isFica)
         {
             _blogService = blogService;
-            NuevoPost = new BlogFicaDto();
+            _isFica = isFica;
+
+            if (_isFica)
+            {
+                NuevoPostFica = new BlogFicaDto();
+            }
+            else
+            {
+                NuevoPostNodo = new BlogNodoDto();
+            }
         }
+
+        public BlogFicaDto NuevoPostFica { get; set; }
+        public BlogNodoDto NuevoPostNodo { get; set; }
 
         public async Task AñadirPost()
         {
-            await _blogService.CreateBlogFicaAsync(NuevoPost); // Cambié el método a CreateBlogFicaAsync
+            if (_isFica)
+            {
+                await _blogService.CreateBlogFicaAsync(NuevoPostFica);
+            }
+            else
+            {
+                await _blogService.CreateBlogNodoAsync(NuevoPostNodo);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

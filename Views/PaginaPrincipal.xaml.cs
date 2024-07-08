@@ -33,7 +33,6 @@ public partial class PaginaPrincipal : ContentPage
 
     }
 
-
     private void InitializeFacultades()
     {
         Facultades = new ObservableCollection<Facultad>
