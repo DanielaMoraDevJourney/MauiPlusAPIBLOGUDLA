@@ -25,9 +25,17 @@ namespace BLOGSOCIALUDLA.Services
 
         public async Task CreateCommentAsync(CommentDto commentDto)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/comments", commentDto);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("/api/comments", commentDto);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                // Log or handle the exception as needed
+                Console.WriteLine($"Request error: {ex.Message}");
+                throw;
+            }
         }
     }
-
 }

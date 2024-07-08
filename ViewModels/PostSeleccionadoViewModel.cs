@@ -1,5 +1,6 @@
 ﻿using BLOGSOCIALUDLA.Models;
 using BLOGSOCIALUDLA.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -81,32 +82,28 @@ namespace BLOGSOCIALUDLA.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(NuevoComentario))
             {
-                Guid blogId;
-
-                if (_postFica != null)
-                {
-                    blogId = _postFica.Id;
-                }
-                else if (_postNodo != null)
-                {
-                    blogId = _postNodo.Id;
-                }
-                else
-                {
-                    return; // No hay ID válido, no enviar comentario
-                }
+                Guid? blogFicaId = _postFica?.Id;
+                Guid? blogNodoId = _postNodo?.Id;
 
                 var nuevoComentario = new CommentDto
                 {
                     Contenido = NuevoComentario,
                     Fecha = DateTime.Now,
-                    BlogFicaId = _postFica?.Id,
-                    BlogNodoId = _postNodo?.Id
+                    BlogFicaId = blogFicaId,
+                    BlogNodoId = blogNodoId
                 };
 
-                await _commentService.CreateCommentAsync(nuevoComentario);
-                Comments.Add(nuevoComentario);
-                NuevoComentario = string.Empty;
+                try
+                {
+                    await _commentService.CreateCommentAsync(nuevoComentario);
+                    Comments.Add(nuevoComentario);
+                    NuevoComentario = string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception (e.g., show an error message)
+                    Console.WriteLine($"Error sending comment: {ex.Message}");
+                }
             }
         }
 

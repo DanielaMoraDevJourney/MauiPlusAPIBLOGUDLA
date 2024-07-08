@@ -9,92 +9,31 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
             <Grid Grid.Row="0">
-
                 <VerticalStackLayout>
-                    <Label
-                    FontFamily="Poppins-Bold"
-                    TextColor="DarkRed"
-                   Text="{Binding Titulo}"  
-                    FontSize="25" 
-                    FontAttributes="Bold" 
-                    Margin="30,0" />
-                        <Label 
-                    FontFamily="Poppins-Medium"
-                    Text="{Binding Contenido}" 
-                    FontSize="16"
-                    Margin="30,0" />
-                    
-                    
-                    <Label
-                        Text="Ingresa un Comentario"
-                        FontFamily="Poppins-SemiBold"
-                        Margin="30,10,0,10"
-                        TextColor="DarkRed">
-                    </Label>
-                    <Grid  Margin="0,0,0,10">
-                        <Border 
-                            Margin="15,0,15,0"
-                    Grid.RowSpan="4"
-                    BackgroundColor="White"
-                    HeightRequest="80"
-                    StrokeShape="RoundRectangle 10,10,10,10"
-                    StrokeThickness="1"
-                    WidthRequest="350">
-                        </Border>
-
-                        <Entry x:Name="nuevoComentarioEntry" 
-             Margin="40,0,40,0"
-             FontFamily="Poppins-Medium"
-             Placeholder="Añadir un comentario..." 
-             HorizontalOptions="FillAndExpand" 
-             VerticalOptions="StartAndExpand"
-               Text="{Binding NuevoComentario}"
-                   />
-
+                    <Label FontFamily="Poppins-Bold" TextColor="DarkRed" Text="{Binding Titulo}" FontSize="25" FontAttributes="Bold" Margin="30,0" />
+                    <Label FontFamily="Poppins-Medium" Text="{Binding Contenido}" FontSize="16" Margin="30,0" />
+                    <Label Text="Ingresa un Comentario" FontFamily="Poppins-SemiBold" Margin="30,10,0,10" TextColor="DarkRed" />
+                    <Grid Margin="0,0,0,10">
+                        <Border Margin="15,0,15,0" Grid.RowSpan="4" BackgroundColor="White" HeightRequest="80" StrokeShape="RoundRectangle 10,10,10,10" StrokeThickness="1" WidthRequest="350" />
+                        <Entry x:Name="nuevoComentarioEntry" Margin="40,0,40,0" FontFamily="Poppins-Medium" Placeholder="Añadir un comentario..." HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Text="{Binding NuevoComentario}" />
                     </Grid>
-                    <Button 
-                    BackgroundColor="#982727"
-                    FontFamily="Poppins-SemiBold"
-                    Text="Enviar"  
-                    HorizontalOptions="Center"
-                    WidthRequest="350"
-                    Margin="0,0,0,20"
-                    Command="{Binding EnviarComentarioCommand}"/>
-
-                    <Label Text="Comentarios" 
-                           FontSize="18"
-                           TextColor="#982727"
-                           FontFamily="Poppins-Medium"
-                           FontAttributes="Bold" 
-                           Margin="30,10,0,0"/>
-                    <CollectionView 
-                        Margin="11,0,0,0"
-                        x:Name="comentariosCollectionView"
-                        ItemsSource="{Binding Comentarios}">
+                    <Button BackgroundColor="#982727" FontFamily="Poppins-SemiBold" Text="Enviar" HorizontalOptions="Center" WidthRequest="350" Margin="0,0,0,20" Command="{Binding EnviarComentarioCommand}" />
+                    <Label Text="Comentarios" FontSize="18" TextColor="#982727" FontFamily="Poppins-Medium" FontAttributes="Bold" Margin="30,10,0,0"/>
+                    <CollectionView Margin="11,0,0,0" x:Name="comentariosCollectionView" ItemsSource="{Binding Comments}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout Padding="5" Margin="20,0">
-                                    <Label 
-                    FontFamily="Poppins-Regular"
-                    Text="{Binding Contenido}" 
-                    FontSize="15" />
-                                    <Label Text="{Binding Fecha}" 
-                       FontSize="12" 
-                       FontFamily="Poppins-Medium"
-                       TextColor="Gray" />
+                                    <Label FontFamily="Poppins-Regular" Text="{Binding Contenido}" FontSize="15" />
+                                    <Label Text="{Binding Fecha}" FontSize="12" FontFamily="Poppins-Medium" TextColor="Gray" />
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                 
                 </VerticalStackLayout>
             </Grid>
         </Grid>
     </ScrollView>
-
 </ContentPage>
